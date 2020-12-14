@@ -1,0 +1,10 @@
+.vscode/
+src/bin/
+src/obj/
+data/sites/*
+!data/sites/example.com/
+src/appsettings.*.json
+
+# System Files
+.DS_Store
+Thumbs.db
