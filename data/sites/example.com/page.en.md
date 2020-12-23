@@ -18,12 +18,12 @@ Taxonomy:
 ---
 # Welcome to Vocula app site
 
-## What is the Vocula app?
+## What is the Vocula?
 
-Vocula is a simple open source content provider powered by REST API and based on simplicity of Markdown and YAML files. These files combine text content and metadata structured into a directory tree.
+Vocula is an open source content provider powered by REST API and based on simplicity of Markdown and YAML files. These files combine content (text & images) and metadata structured into a directory tree.
 
-The main advantage of Vocula application is the user-friendliness of fast creation of structured information source. Vocula brings the ability to focus on content instead of complicated setup.
+> The main advantage of Vocula application is the user-friendliness of fast creation of structured information source. Vocula brings the ability to **focus on content** instead of complicated setup.
 
-Created content could be used as source for multiple use cases, as websites content for example or as knowled base repository or could be combined and integrated with another solutions.
+> Created content could be used as source for **websites** or as **knowledge base** repository and could be combined and integrated with another solutions.
 
-Let's [start](/start/)
+Let's [start](/start/)!
