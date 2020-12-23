@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+# 0.9.1 (2020-12-23)
+
+* Added CORS support
+* Added breadcrumb structure into page model
+* Modified example site
+
 # 0.9.0 (2020-12-14)
 
 Initial build of the application
