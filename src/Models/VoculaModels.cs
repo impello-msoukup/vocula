@@ -9,6 +9,11 @@ namespace Vocula.Server
         None, Html, Text
     }
 
+    public class VoculaBreadcrumbItem {
+        public string Path { get; set; }
+        public string Title { get; set; }
+    }
+
     public class VoculaSiteAuthor {
         public string Name { get; set; }
         public string Email { get; set; }
@@ -35,6 +40,7 @@ namespace Vocula.Server
 
     public class VoculaPage {
         public string Path { get; set; }
+        public List<VoculaBreadcrumbItem> Breadcrumb { get; set; }
         public string Lang { get; set; }
         public string Title { get; set; }
         public DateTime Date { get; set; }
@@ -44,6 +50,7 @@ namespace Vocula.Server
         public string Body { get; set; }
         public List<VoculaPage> Children { get; set; }
         public VoculaPage() {
+            Breadcrumb = new List<VoculaBreadcrumbItem>();
             Children = new List<VoculaPage>();
         }
     }

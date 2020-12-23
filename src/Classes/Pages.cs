@@ -41,12 +41,29 @@ namespace Vocula.Server
             return page;
         }
 
+        private List<VoculaBreadcrumbItem> GetBreadcrumb(string site, string path) {
+            List<VoculaBreadcrumbItem> breadcrumb = new List<VoculaBreadcrumbItem>();
+            string[] dirs = path.TrimEnd('/').Split("/");
+            for (int offset = 1; offset < dirs.Length+1; offset++) {
+                string partPath = string.Join("/", dirs, 0, offset);
+                string pageFile = this.SiteDirectory + Path.DirectorySeparatorChar + site + partPath + Path.DirectorySeparatorChar + $"page.{this.Lang}.md";
+                VoculaPage page = this.GetPage(pageFile);
+                VoculaBreadcrumbItem item = new VoculaBreadcrumbItem();
+                item.Path = partPath + Path.DirectorySeparatorChar;
+                item.Title = page.Title;
+                breadcrumb.Add(item);
+            }
+            return breadcrumb;
+        }
+
         private string GetPageBody(string site, string path, string file, BodyFormat format) {
             string body = null;
             if (File.Exists(file)) {
                 MarkdownRenderer md = new MarkdownRenderer();
                 string markdown = File.ReadAllText(file);
-                markdown = markdown.Replace("{!api}", this.SiteUri + "/sites/" + site + "/images/?path=" + path);
+                markdown = markdown
+                            .Replace("{!api}", this.SiteUri + "/sites/" + site + "/images/?path=" + path)
+                            .Replace("{ !api }", "{!api}"); // Escape step to be able placed as text onto page
                 switch (format) {
                     case BodyFormat.Html:
                         body = md.RenderToHtml(markdown);
@@ -69,6 +86,7 @@ namespace Vocula.Server
             string pageFile = this.SiteDirectory + Path.DirectorySeparatorChar + site + path + $"page.{this.Lang}.md";
             VoculaPage page = this.GetPage(pageFile);
             page.Path = path;
+            page.Breadcrumb = this.GetBreadcrumb(site, path);
             page.Body = this.GetPageBody(site, path, pageFile, format);
             if (Directory.Exists(this.SiteDirectory + Path.DirectorySeparatorChar + site + path))
                 page.Alternatives = this.Tools.GetAlternatives(Array.FindAll(Directory.GetFiles(this.SiteDirectory + Path.DirectorySeparatorChar + site + path, "*.md"), x => x.Like($"%{Path.DirectorySeparatorChar}page.%.md")));
