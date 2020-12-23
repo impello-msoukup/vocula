@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Vocula.Server;
+using Vocula.Server.Settings;
 
 namespace Vocula.Controllers
 {
@@ -15,18 +16,18 @@ namespace Vocula.Controllers
     public class SitesController : ControllerBase
     {
         private readonly ILogger<SitesController> Logger;
-        private IConfiguration Config;
+        private readonly VoculaSettings Config;
         private string BaseUrl;
         private string SitesDirectory;
         private string DefaultLanguage;
         private VoculaSites Sites; 
 
-        public SitesController(ILogger<SitesController> logger, IConfiguration config) {
+        public SitesController(ILogger<SitesController> logger, IOptions<VoculaSettings> config) {
             this.Logger = logger;
-            this.Config = config;
-            this.BaseUrl = this.Config.GetSection("Server").GetSection("BaseUrl").Value;
-            this.SitesDirectory = this.Config.GetSection("Data").GetSection("Sites").Value;
-            this.DefaultLanguage = this.Config.GetSection("Data").GetSection("DefaultLanguage").Value;
+            this.Config = config.Value;
+            this.BaseUrl = this.Config.Server.BaseUrl;
+            this.SitesDirectory = this.Config.Data.Sites;
+            this.DefaultLanguage = this.Config.Data.DefaultLanguage;
             this.Sites = new VoculaSites(this.BaseUrl, this.SitesDirectory, this.DefaultLanguage);
         }
 

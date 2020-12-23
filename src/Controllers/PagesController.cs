@@ -2,8 +2,9 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Vocula.Server;
+using Vocula.Server.Settings;
 
 namespace Vocula.Controllers
 {
@@ -30,18 +31,18 @@ namespace Vocula.Controllers
     public class PagesController : ControllerBase
     {
         private readonly ILogger<PagesController> Logger;
-        private IConfiguration Config;
+        private readonly VoculaSettings Config;
         private string BaseUrl;
         private string SitesDirectory;
         private string DefaultLanguage;
         private VoculaPages Pages;
 
-        public PagesController(ILogger<PagesController> logger, IConfiguration config) {
+        public PagesController(ILogger<PagesController> logger, IOptions<VoculaSettings> config) {
             this.Logger = logger;
-            this.Config = config;
-            this.BaseUrl = this.Config.GetSection("Server").GetSection("BaseUrl").Value;
-            this.SitesDirectory = this.Config.GetSection("Data").GetSection("Sites").Value;
-            this.DefaultLanguage = this.Config.GetSection("Data").GetSection("DefaultLanguage").Value;
+            this.Config = config.Value;
+            this.BaseUrl = this.Config.Server.BaseUrl;
+            this.SitesDirectory = this.Config.Data.Sites;
+            this.DefaultLanguage = this.Config.Data.DefaultLanguage;
             this.Pages = new VoculaPages(this.BaseUrl, this.SitesDirectory, this.DefaultLanguage);
         }
 

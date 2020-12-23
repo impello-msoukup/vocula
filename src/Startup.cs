@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Vocula.Server.Settings;
 
 namespace Vocula
 {
@@ -29,7 +30,29 @@ namespace Vocula
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // configure strongly typed settings objects
+            var voculaSettings = Configuration.GetSection("Vocula");
+            services.Configure<VoculaSettings>(voculaSettings);
 
+            services.AddCors(options => {
+                if (voculaSettings.Get<VoculaSettings>().Server.Cors.AllowOrigins.Count > 0) {
+                    options.AddDefaultPolicy(
+                        builder => {
+                            builder.WithOrigins(voculaSettings.Get<VoculaSettings>().Server.Cors.AllowOrigins.ToArray())
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                        }
+                    );
+                } else {
+                    options.AddDefaultPolicy(
+                        builder => {
+                            builder.AllowAnyOrigin()
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                        }
+                    );
+                }
+            });
             services.AddControllers()
                 .AddJsonOptions(options => 
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
@@ -51,6 +74,8 @@ namespace Vocula
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Vocula v1"));
             }
+
+            app.UseCors();
 
             app.UseHttpsRedirection();
 
