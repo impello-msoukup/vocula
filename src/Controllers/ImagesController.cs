@@ -1,4 +1,5 @@
 using System.IO;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -36,11 +37,12 @@ namespace Vocula.Controllers
         /// </summary>
         [HttpGet]
         public IActionResult GetImage(string siteName, [FromQuery] ImagesQuery query) {
-            var image = this.SitesDirectory + Path.DirectorySeparatorChar + siteName + Path.DirectorySeparatorChar + query.Path;
-            if (System.IO.File.Exists(image)) {
-                string extension = Path.GetExtension(image).TrimStart('.').ToLower();
+            string forbiddenPattern = @"\.\.(\\|\/)"; // Skipping to the parent directory is banned
+            string imagePath = this.SitesDirectory + Path.DirectorySeparatorChar + siteName + Path.DirectorySeparatorChar + Regex.Replace(query.Path.TrimStart(Path.DirectorySeparatorChar), forbiddenPattern, (string)"");
+            if (System.IO.File.Exists(imagePath)) {
+                string extension = Path.GetExtension(imagePath).TrimStart('.').ToLower();
                 if (extension == "jpg") extension = "jpeg";
-                return PhysicalFile(@image, "image/" + extension);
+                return PhysicalFile(@imagePath, "image/" + extension);
             } else {
                 return NotFound(null);
             }

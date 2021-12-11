@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Vocula.Server
 {
@@ -17,11 +18,12 @@ namespace Vocula.Server
         }
 
         public string NormalizePath(string path) {
-            path = path ?? "/";
-            path = path.Replace("\\", "/");
-            if (path.Substring(0,1) != "/") path = $"/{path}";
-            if (path.Substring(path.Length-1,1) != "/") path = $"{path}/";
-            return path;
+            path = path ?? $"{Path.DirectorySeparatorChar}";
+            string forbiddenPattern = @"\.\.(\\|\/)"; // Skipping to the parent directory is banned
+            path = Regex.Replace(path, forbiddenPattern, (string)"");
+            string dirSeparators = @"(\\|\/)"; // Normalize directory separators
+            path = Regex.Replace(path, dirSeparators, $"{Path.DirectorySeparatorChar}").Trim(Path.DirectorySeparatorChar);
+            return path.Length == 0 ? $"{Path.DirectorySeparatorChar}" : $"{Path.DirectorySeparatorChar}{path}{Path.DirectorySeparatorChar}";
         }
 
         public string[] GetAlternatives(string[] files) {
