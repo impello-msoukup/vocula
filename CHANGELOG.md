@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+# 0.9.2 (2022-05-02)
+* Microsoft .NET 6.0 upgrade
+* Security enhancements
+
 # 0.9.1 (2020-12-23)
 
 * Added CORS support
