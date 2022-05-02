@@ -18,11 +18,11 @@ Taxonomy:
 ---
 # How to start with Vocula app
 
-Vocula is an open source Web Api application powered by free and cross-platform [.NET 5](https://dotnet.microsoft.com), it means that Vocula app can be deployed on Windows, Linux or macOS.
+Vocula is an open source Web Api application powered by free and cross-platform [.NET 6](https://dotnet.microsoft.com), it means that Vocula app can be deployed on Windows, Linux or macOS.
 
 ## How to build
 
-* Install the latest [.NET 5 SDK](https://www.microsoft.com/net/download/core#/current)
+* Install the latest [.NET 6 SDK](https://www.microsoft.com/net/download/core#/current)
 * Install [Git](https://git-scm.com)
 * Clone following [Git repo](https://github.com/impello-msoukup/vocula)
 * Run `dotnet build` in the /src directory of the cloned repo

@@ -8,7 +8,7 @@ Created content could be used as source for **websites** or as **knowledge base*
 
 ## How to build
 
-* Install the latest [.NET 5 SDK](https://www.microsoft.com/net/download/core#/current)
+* Install the latest [.NET 6 SDK](https://www.microsoft.com/net/download/core#/current)
 * Install [Git](https://git-scm.com)
 * Clone this repo
 * Run `dotnet build` in the /src directory of the cloned repo
