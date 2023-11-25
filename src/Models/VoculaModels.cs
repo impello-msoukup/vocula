@@ -1,65 +1,242 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
-using YamlDotNet.Serialization;
 
-namespace Vocula.Server
+namespace Vocula.Server;
+
+/// <summary>
+/// Page body formats
+/// </summary>
+public enum BodyFormat
 {
-    public enum BodyFormat {
-        None, Html, Text
-    }
+    ///<summary>Format not set</summary>
+    None,
+    ///<summary>HTML format</summary>
+    Html,
+    ///<summary>Plain text format</summary>
+    Text
+}
 
-    public class VoculaBreadcrumbItem {
-        public string Path { get; set; }
-        public string Title { get; set; }
-    }
+/// <summary>
+/// Breadcrumb item
+/// </summary>
+public class VoculaBreadcrumbItem
+{
+    /// <summary>
+    /// Path
+    /// </summary>
+    /// <value></value>
+    public string Path { get; set; }
 
-    public class VoculaSiteAuthor {
-        public string Name { get; set; }
-        public string Email { get; set; }
-    }
+    /// <summary>
+    /// Title
+    /// </summary>
+    /// <value></value>
+    public string Title { get; set; }
+}
 
-    public class VoculaSiteMetadata {
-        public string Description { get; set; }
-        public VoculaSiteAuthor Author { get; set; }
-        public string[] Keywords { get; set; }
-    }
+/// <summary>
+/// Author
+/// </summary>
+public class VoculaSiteAuthor
+{
+    /// <summary>
+    /// Name
+    /// </summary>
+    /// <value></value>
+    public string Name { get; set; }
 
-    public class VoculaTaxonomy {
-        public string[] Category { get; set; }
-        public string[] Tag { get; set; }
-    }
+    /// <summary>
+    /// Email address
+    /// </summary>
+    /// <value></value>
+    public string Email { get; set; }
+}
 
-    public class VoculaSite {
-        public string Name { get; set; }
-        public string Lang { get; set; }
-        public string Title { get; set; }
-        public VoculaSiteMetadata Metadata { get; set; }
-        public string[] Alternatives { get; set; }
-    }
+/// <summary>
+/// Metadata
+/// </summary>
+public class VoculaSiteMetadata
+{
+    /// <summary>
+    /// Description
+    /// </summary>
+    /// <value></value>
+    public string Description { get; set; }
 
-    public class VoculaPage {
-        public string Path { get; set; }
-        public List<VoculaBreadcrumbItem> Breadcrumb { get; set; }
-        public string Lang { get; set; }
-        public string Title { get; set; }
-        public DateTime Date { get; set; }
-        public VoculaSiteMetadata Metadata { get; set; }
-        public VoculaTaxonomy Taxonomy { get; set; }
-        public string[] Alternatives { get; set; }
-        public string Body { get; set; }
-        public List<VoculaPage> Children { get; set; }
-        public VoculaPage() {
-            Breadcrumb = new List<VoculaBreadcrumbItem>();
-            Children = new List<VoculaPage>();
-        }
-    }
+    /// <summary>
+    /// Athor name
+    /// </summary>
+    /// <value></value>
+    public VoculaSiteAuthor Author { get; set; }
 
-    public class VoculaSearchResult {
-        public string Path { get; set; }
-        public string Title { get; set; }
-        public DateTime Date { get; set; }
-        public string Preview { get; set; }
-        public double PageRank { get; set; }
+    /// <summary>
+    /// Keyword list
+    /// </summary>
+    /// <value></value>
+    public string[] Keywords { get; set; }
+}
+
+/// <summary>
+/// Taxonomy
+/// </summary>
+public class VoculaTaxonomy
+{
+    /// <summary>
+    /// Category
+    /// </summary>
+    /// <value></value>
+    public string[] Category { get; set; }
+
+    /// <summary>
+    /// Tag
+    /// </summary>
+    /// <value></value>
+    public string[] Tag { get; set; }
+}
+
+/// <summary>
+/// Site
+/// </summary>
+public class VoculaSite
+{
+    /// <summary>
+    /// Site name
+    /// </summary>
+    /// <value></value>
+    public string Name { get; set; }
+
+    /// <summary>
+    /// Site language
+    /// </summary>
+    /// <value></value>
+    public string Lang { get; set; }
+
+    /// <summary>
+    /// Site title
+    /// </summary>
+    /// <value></value>
+    public string Title { get; set; }
+
+    /// <summary>
+    /// Site metadata
+    /// </summary>
+    /// <value></value>
+    public VoculaSiteMetadata Metadata { get; set; }
+
+    /// <summary>
+    /// Site alternatives
+    /// </summary>
+    /// <value></value>
+    public string[] Alternatives { get; set; }
+}
+
+/// <summary>
+/// Page
+/// </summary>
+public class VoculaPage
+{
+    /// <summary>
+    /// Page path
+    /// </summary>
+    /// <value></value>
+    public string Path { get; set; }
+
+    /// <summary>
+    /// Breadcrumb of page path
+    /// </summary>
+    /// <value></value>
+    public List<VoculaBreadcrumbItem> Breadcrumb { get; set; }
+
+    /// <summary>
+    /// Page language
+    /// </summary>
+    /// <value></value>
+    public string Lang { get; set; }
+
+    /// <summary>
+    /// Page title
+    /// </summary>
+    /// <value></value>
+    public string Title { get; set; }
+
+    /// <summary>
+    /// Date and time of page creation
+    /// </summary>
+    /// <value></value>
+    public DateTime Date { get; set; }
+
+    /// <summary>
+    /// Page metadata
+    /// </summary>
+    /// <value></value>
+    public VoculaSiteMetadata Metadata { get; set; }
+
+    /// <summary>
+    /// Page taxonomy
+    /// </summary>
+    /// <value></value>
+    public VoculaTaxonomy Taxonomy { get; set; }
+
+    /// <summary>
+    /// Alternative pages
+    /// </summary>
+    /// <value></value>
+    public string[] Alternatives { get; set; }
+
+    /// <summary>
+    /// Page body
+    /// </summary>
+    /// <value></value>
+    public string Body { get; set; }
+
+    /// <summary>
+    /// Child pages
+    /// </summary>
+    /// <value></value>
+    public List<VoculaPage> Children { get; set; }
+
+    /// <summary>
+    /// Class constructor
+    /// </summary>
+    public VoculaPage()
+    {
+        Breadcrumb = new List<VoculaBreadcrumbItem>();
+        Children = new List<VoculaPage>();
     }
+}
+
+/// <summary>
+/// Search result
+/// </summary>
+public class VoculaSearchResult
+{
+    /// <summary>
+    /// Page path
+    /// </summary>
+    /// <value></value>
+    public string Path { get; set; }
+
+    /// <summary>
+    /// Page title
+    /// </summary>
+    /// <value></value>
+    public string Title { get; set; }
+
+    /// <summary>
+    /// Date and time of page creation
+    /// </summary>
+    /// <value></value>
+    public DateTime Date { get; set; }
+
+    /// <summary>
+    /// Page preview
+    /// </summary>
+    /// <value></value>
+    public string Preview { get; set; }
+
+    /// <summary>
+    /// Page rank index
+    /// </summary>
+    /// <value></value>
+    public double PageRank { get; set; }
 }

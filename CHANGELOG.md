@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+# 0.9.3 (2023-11-25)
+* Microsoft .NET 8.0 upgrade
+* Added comments
+
 # 0.9.2 (2022-05-02)
 * Microsoft .NET 6.0 upgrade
 * Security enhancements

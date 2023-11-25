@@ -1,29 +1,85 @@
 using System.Collections.Generic;
 
-namespace Vocula.Server.Settings
+namespace Vocula.Server.Settings;
+
+/// <summary>
+/// CORS settings
+/// </summary>
+public class CorsSettings
 {
-    public class CorsSettings {
-        public List<string> AllowOrigins { get; set; }
-        public CorsSettings() {
-            this.AllowOrigins = new List<string>();
-        }
-    }
+    /// <summary>
+    /// Allowed origins
+    /// </summary>
+    /// <value></value>
+    public List<string> AllowOrigins { get; set; }
 
-    public class ServerSettings {
-        public string BaseUrl { get; set; }
-        public CorsSettings Cors { get; set; }
-        public ServerSettings() {
-            this.Cors = new CorsSettings();
-        }
+    /// <summary>
+    /// Class constructor
+    /// </summary>
+    public CorsSettings()
+    {
+        this.AllowOrigins = new List<string>();
     }
+}
 
-    public class DataSettings {
-        public string Sites { get; set; }
-        public string DefaultLanguage { get; set; }
-    }
+/// <summary>
+/// Server settings
+/// </summary>
+public class ServerSettings
+{
+    /// <summary>
+    /// Base URL
+    /// </summary>
+    /// <value></value>
+    public string BaseUrl { get; set; }
 
-    public class VoculaSettings {
-        public ServerSettings Server { get; set; }
-        public DataSettings Data { get; set; }
+    /// <summary>
+    /// CORS settings
+    /// </summary>
+    /// <value></value>
+    public CorsSettings Cors { get; set; }
+
+    /// <summary>
+    /// Class constructor
+    /// </summary>
+    public ServerSettings()
+    {
+        this.Cors = new CorsSettings();
     }
+}
+
+/// <summary>
+/// Data settings
+/// </summary>
+public class DataSettings
+{
+    /// <summary>
+    /// Sites
+    /// </summary>
+    /// <value></value>
+    public string Sites { get; set; }
+
+    /// <summary>
+    /// Default language
+    /// </summary>
+    /// <value></value>
+    public string DefaultLanguage { get; set; }
+}
+
+/// <summary>
+/// Application settings
+/// </summary>
+public class VoculaSettings
+{
+    /// <summary>
+    /// Server settings
+    /// </summary>
+    /// <value></value>
+    public ServerSettings Server { get; set; }
+
+    /// <summary>
+    /// Data settings
+    /// </summary>
+    /// <value></value>
+    public DataSettings Data { get; set; }
 }
